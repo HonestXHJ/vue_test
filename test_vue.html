@@ -1,0 +1,93 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="js/vue.js"></script>
+    <style>
+        .d1{
+            margin: 10px 0 0 0;
+            width: 200px;
+            height: 200px;
+            background: #0a6999;
+            color: #fff;
+        }
+        .d2{
+            width: 100px;
+            height: 100px;
+            background: #0c2f86;
+            color: #fff;
+        }
+        .d4{
+            width: 100px;
+            height: 100px;
+            background: #999;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<div id="d1" class="d1" v-on:click="d1Click">
+    {{text}}
+    <div v-html="d2"></div>
+</div>
+<div id="d3" class="d1" v-on:click="reversedNum">
+    {{num}}
+    {{reNum}}
+    <!-- <div v-html="d4"></div>     -->
+    <div class='d4' v-on:click='setReNum'>It's d4</div>
+</div>
+<script>
+    var v_d1 = new Vue({
+        el: '#d1',
+        data: {
+            num: 10,
+            text: "It's d1",
+            d2: "<div class='d2'>It's d2</div>"
+        },
+        methods: {
+            d1Click: function (){
+                this.text = "It's d1 (click)";
+            }
+        }
+    });
+
+    var v_d3 = new Vue({
+        el: '#d3',
+        data: {
+            var_data:{
+                re_num: '001'
+            },
+            num: '30',
+            // reNum: '50' 和computed的函数命名重复的话会使其报错
+            d4: "<div class='d4' v-on:click='setReNum'>It's d4</div>"            
+        },
+        computed: {
+            reNum: {
+                get: function (){
+                    return this.num.split('').reverse().join('');
+                },
+                set: function (value){
+                    this.num = value.split('').reverse().join('');
+                }
+            }
+        },
+        methods: {
+            reversedNum: function (){
+                console.log('reversedNum doing');
+                this.num = this.num.split('').reverse().join('');    
+            },
+            setReNum: function (event){
+                event.cancelBubble = true; 
+                console.log('setReNum doing');
+                var re_num = this.var_data.re_num;
+                this.var_data.re_num = (parseInt(this.var_data.re_num) + 1).toString();
+                this.reNum = re_num;
+            }
+        }
+    });
+
+    // var v_d4 = new Vue({
+        
+    // })
+</script>
+</body>
+</html>

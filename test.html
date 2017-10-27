@@ -1,0 +1,108 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <script>
+    </script>
+    <style>
+    </style>
+</head>
+<body>
+<script>
+    function test(){
+        return 'test';
+    }
+    var test_str0 = () => {
+        //不会返回 'test'
+        test();
+    }
+    var test_str1 = () => {
+        return test();
+    }
+    console.log('test_arr0:' + test_str0());
+    console.log('test_arr1:' + test_str1());
+
+
+    var birth = 1800;
+    var obj = {
+        birth: 1990,
+        getAge: function () {
+            console.log('getAge this birth:' + this.birth);
+            var fn = function () {
+                console.log('getAge fn this birth:' + this.birth); //内嵌函数 this指向window
+                console.log(new Date().getFullYear() - this.birth); // this指向window或undefined
+            };
+            fn();
+        },
+        getAge2: function () {
+            this.birth = 2000; //修改了obj.birth
+            var fn = function () {
+                return new Date().getFullYear() - this.birth; // this指向window 1800
+            };
+            return fn();
+        },
+        getAge3: function () {
+            var that = this;
+            var fn = function () {
+                return new Date().getFullYear() - that.birth; // that指向obj对象 2000
+            };
+            return fn();
+        },
+        getAge4: function () {
+            var b = this.birth; // 2000
+            var fn = () => new Date().getFullYear() - this.birth; // this指向obj对象 2000
+            return fn();
+        }
+    };
+
+    obj.getAge();
+    console.log('getAge2:' + obj.getAge2());
+    console.log('getAge3:' + obj.getAge3());
+    console.log('getAge4:' + obj.getAge4());
+
+    var obj2 = {
+        birth: 1900,
+        getAge: function (year) {
+            var b = this.birth; // 1990
+            var fn = (y) => y - this.birth; // this.birth仍是1990
+            return fn.call({birth:1990}, year);
+        }
+    };
+    console.log(obj2.getAge(2015)); // 25
+
+    //call测试
+    function Animal(name){
+        console.log('new animal ' + name);
+        this.name = name;
+        this.showName = function (){
+            console.log('animal name is ' + this.name);
+        }
+    }
+
+    function Cat(name){
+        console.log('new cat ' + name);
+        this.sayHi = function (){
+            console.log("Hi I'm " + name);
+        }
+        Animal.call(this, name);
+    }
+
+//    错误用法， 只是进行了一次把Animal放在Cat对象的上下文里执行
+//    Animal.call(Cat, 'John');
+
+    var cat0 = new Cat('Tom');
+    cat0.showName();
+    cat0.sayHi();
+
+    function add(a,b)
+    {
+        console.log(a+b);
+    }
+    function sub(a,b)
+    {
+        console.log(a-b);
+    }
+
+    add.call(sub,3,1);
+</script>
+</body>
+</html>
