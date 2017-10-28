@@ -26,14 +26,20 @@
 </head>
 <body>
 <div id="d1" class="d1" v-on:click="d1Click">
-    {{text}}
+    {{ text }}{{ ' 直接输出的文本' }}{{ ' ' + reA()}}
     <div v-html="d2"></div>
 </div>
+
 <div id="d3" class="d1" v-on:click="reversedNum">
     {{num}}
     {{reNum}}
     <!-- <div v-html="d4"></div>     -->
     <div class='d4' v-on:click='setReNum'>It's d4</div>
+</div>
+
+<div id="d5" class="d1">
+    <input v-model="question">
+    You question : {{question}}
 </div>
 <script>
     var v_d1 = new Vue({
@@ -44,6 +50,9 @@
             d2: "<div class='d2'>It's d2</div>"
         },
         methods: {
+            reA: function (){
+                return 'A';
+            },
             d1Click: function (){
                 this.text = "It's d1 (click)";
             }
@@ -85,9 +94,12 @@
         }
     });
 
-    // var v_d4 = new Vue({
-        
-    // })
+    var v_d5 = new Vue({
+        el: '#d5',
+        data: {
+            question: ''
+        }
+    })
 </script>
 </body>
 </html>
