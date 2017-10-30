@@ -19,13 +19,22 @@
         .d4{
             width: 100px;
             height: 100px;
-            background: #888;
             color: #fff;
+        }
+
+        .bg-ccc{
+            background: #ccc;
+        }
+        .bg-000{
+            background: #000;
+        }
+        .bg-yellow{
+            background: yellowgreen;
         }
     </style>
 </head>
 <body>
-<div id="d1" class="d1" v-on:click="d1Click">
+<div id="d1" class="d1" v-on:click="d1Click" v-bind:data-num="num">
     {{ text }}{{ ' 直接输出的文本' }}{{ ' ' + reA()}}
     <div v-html="d2"></div>
 </div>
@@ -34,72 +43,21 @@
     {{num}}
     {{reNum}}
     <!-- <div v-html="d4"></div>     -->
-    <div class='d4' v-on:click='setReNum'>It's d4</div>
+    <div class='d4' v-bind:class="d4_bg" v-on:click='setReNum'>It's d4</div>
 </div>
 
-<div id="d5" class="d1">
+<div id="d5" class="d1" v-bind:class="classArr">
     <input v-model="question">
     You question : {{question}}
 </div>
-<script>
-    var v_d1 = new Vue({
-        el: '#d1',
-        data: {
-            num: 10,
-            text: "It's d1",
-            d2: "<div class='d2'>It's d2</div>"
-        },
-        methods: {
-            reA: function (){
-                return 'A';
-            },
-            d1Click: function (){
-                this.text = "It's d1 (click)";
-            }
-        }
-    });
 
-    var v_d3 = new Vue({
-        el: '#d3',
-        data: {
-            var_data:{
-                re_num: '001'
-            },
-            num: '30',
-            // reNum: '50' 和computed的函数命名重复的话会使其报错
-            d4: "<div class='d4' v-on:click='setReNum'>It's d4</div>"            
-        },
-        computed: {
-            reNum: {
-                get: function (){
-                    return this.num.split('').reverse().join('');
-                },
-                set: function (value){
-                    this.num = value.split('').reverse().join('');
-                }
-            }
-        },
-        methods: {
-            reversedNum: function (){
-                console.log('reversedNum doing');
-                this.num = this.num.split('').reverse().join('');    
-            },
-            setReNum: function (event){
-                event.cancelBubble = true; 
-                console.log('setReNum doing');
-                var re_num = this.var_data.re_num;
-                this.var_data.re_num = (parseInt(this.var_data.re_num) + 1).toString();
-                this.reNum = re_num;
-            }
-        }
-    });
-
-    var v_d5 = new Vue({
-        el: '#d5',
-        data: {
-            question: ''
-        }
-    })
-</script>
+<div id="d6" class="d1" v-on:click="showHide">
+    <ul v-if="show">
+        <li v-for="item in li_arr">
+            {{item}}
+        </li>
+    </ul>
+</div>
+<script src="js/test_vue.js"></script>
 </body>
 </html>
