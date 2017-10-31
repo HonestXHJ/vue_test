@@ -78,3 +78,19 @@ var v_d5 = new Vue({
       }
   }
 })
+
+var v_d6 = new Vue({
+    el: '#d7',
+    data: {
+        type: 'username',
+        password: true
+    },
+    methods: {
+        typeSwitch: function (){
+            this.type == 'username' ? this.type = 'UID' : this.type = 'username';
+        },
+        passwordSwitch: function (){
+            this.password = !this.password;
+        }
+    }
+})

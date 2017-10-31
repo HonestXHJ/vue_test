@@ -58,6 +58,29 @@
         </li>
     </ul>
 </div>
+
+<div id="d7" class="d1">
+    <template v-if="type == 'username'">
+        <label for="username">用户名</label>
+        <input type="text" id="username" placeholder="请输入用户名">
+    </template>
+    <template v-else>
+        <label for="UID">UID</label>
+        <input type="text" id="UID" placeholder="请输入UID">
+    </template>
+    <button v-on:click="typeSwitch">切换账号类型</button>
+    <br>
+
+    <template v-if="password == true">
+        <label for="password">密码</label>
+        <input type="password" id="password" placeholder="请输入密码">
+    </template>
+    <template v-else>
+        <label for="m_password">动态密码</label>
+        <input type="text" id="m_password" placeholder="请输入动态密码" key="m_password">
+    </template>
+    <button v-on:click="passwordSwitch">切换密码类型</button>
+</div>
 <script src="js/test_vue.js"></script>
 </body>
 </html>
